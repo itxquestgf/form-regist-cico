@@ -163,8 +163,33 @@ function Checkin() {
 }
 
 function Checkout() {
-  const [rating, setRating] = useState("");
-  const [feedback, setFeedback] = useState("");
+  const navigate = useNavigate();
+  const [form, setForm] = useState({
+    pic: "",
+    phone: "",
+    jumlah: "",
+    instansi: "",
+    fasilitas: []
+  });
+
+  const fasilitasList = [
+    "Chocolatos X-Quest",
+    "Chocolatos Cafe",
+    "Merchandise Store"
+  ];
+
+  const handleCheck = (item) => {
+    setForm((prev) => {
+      const exists = prev.fasilitas.includes(item);
+      return {
+        ...prev,
+        fasilitas: exists
+          ? prev.fasilitas.filter((i) => i !== item)
+          : [...prev.fasilitas, item]
+      };
+    });
+  };
+
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
@@ -175,46 +200,83 @@ function Checkout() {
       method: "POST",
       mode: "no-cors",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ rating, feedback })
+      body: JSON.stringify(form)
     });
 
     setLoading(false);
     alert("Data terkirim. Terima kasih!");
-    setRating("");
-    setFeedback("");
+    navigate("/");("/");
   };
 
   return (
-    <div className="max-w-xl mx-auto bg-white p-6 rounded-2xl shadow mt-12">
-      <h2 className="text-2xl font-bold mb-4 text-center">
-        Terima kasih atas kunjungan Anda!
-      </h2>
+    <div className="max-w-xl mx-auto bg-white p-6 rounded-2xl shadow">
+      <img src={Logo} alt="Logo" className="mx-auto w-32 mb-4" />
+
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <input
-          type="number"
-          min="1"
-          max="5"
-          placeholder="Nilai (1-5)"
+          type="text"
+          placeholder="Nama PIC/Koordinator Rombongan"
           className="p-3 border rounded-xl"
-          value={rating}
-          onChange={(e) => setRating(e.target.value)}
+          value={form.pic}
+          onChange={(e) => setForm({ ...form, pic: e.target.value })}
           required
         />
 
-        <textarea
-          placeholder="Feedback"
+        <input
+          type="text"
+          placeholder="Nomor HP Aktif"
           className="p-3 border rounded-xl"
-          rows="4"
-          value={feedback}
-          onChange={(e) => setFeedback(e.target.value)}
+          value={form.phone}
+          onChange={(e) => setForm({ ...form, phone: e.target.value })}
           required
         />
+
+        <input
+          type="number"
+          placeholder="Jumlah Rombongan"
+          className="p-3 border rounded-xl"
+          value={form.jumlah}
+          onChange={(e) => setForm({ ...form, jumlah: e.target.value })}
+          required
+        />
+
+        <input
+          type="text"
+          placeholder="Instansi Asal"
+          className="p-3 border rounded-xl"
+          value={form.instansi}
+          onChange={(e) => setForm({ ...form, instansi: e.target.value })}
+          required
+        />
+
+        <div className="mt-2">
+          <p className="font-semibold mb-2">Area yang Akan Dikunjungi:</p>
+          {fasilitasList.map((item) => (
+            <label key={item} className="flex items-center gap-2 mb-1">
+              <input
+                type="checkbox"
+                checked={form.fasilitas.includes(item)}
+                onChange={() => handleCheck(item)}
+              />
+              {item}
+            </label>
+          ))}
+        </div>
+
+        <p className="text-sm text-gray-700 mt-4">
+          Dengan ini saya selaku PIC/Penanggung jawab rombongan menyatakan bahwa
+          seluruh rombongan telah membaca/diberikan pengarahan keselamatan
+          (safety induction) melalui handbook kunjungan Chocolatos X-Quest, tidak
+          membawa barang terlarang seperti korek api, senjata tajam, atau
+          makanan/minuman yang dibatasi, serta berada dalam kondisi kesehatan
+          yang layak tanpa penyakit berisiko.
+        </p>
 
         <button
           type="submit"
-          className={`p-3 text-white rounded-xl shadow ${brown}`}
+          className={`mt-4 p-3 text-white rounded-xl shadow ${brown}`}
         >
-          {loading ? "Mengirim..." : "Kirim"}
+          {loading ? "Mengirim..." : "Submit"}
         </button>
       </form>
     </div>
