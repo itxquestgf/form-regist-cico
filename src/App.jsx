@@ -15,6 +15,7 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/checkin" element={<Checkin />} />
           <Route path="/checkout" element={<Checkout />} />
+          <Route path="/thanks" element={<Thanks />} />
         </Routes>
       </div>
     </Router>
@@ -25,7 +26,7 @@ function Home() {
   return (
     <div className="min-h-screen flex items-center justify-center p-6" style={{ background: "#6A4E3A" }}>
       <div className="max-w-xl w-full bg-white p-6 rounded-2xl shadow flex flex-col items-center gap-6">
-        
+
         <img src={Logo} alt="Logo" className="mx-auto w-32 mb-2" />
 
         <Link
@@ -95,8 +96,7 @@ function Checkin() {
     );
 
     setLoading(false);
-    alert("Data terkirim. Terima kasih!");
-    navigate("/");
+    navigate("/thanks");
   };
 
   const isFormValid =
@@ -111,7 +111,7 @@ function Checkin() {
     <div className="min-h-screen p-6" style={{ background: "#6A4E3A" }}>
       <div className="max-w-xl mx-auto bg-white p-6 rounded-2xl shadow">
         <img src={Logo} alt="Logo" className="mx-auto w-32 mb-4" />
-
+    <h2 className="text-amber-950 text-xl font-bold text-center mb-4">Form Check In</h2>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <input
             type="text"
@@ -158,7 +158,7 @@ function Checkin() {
                   type="checkbox"
                   checked={form.fasilitas.includes(item)}
                   onChange={() => handleCheck(item)}
-                  className="accent-[#6A4E3A]"
+                  className="accent-[#713c00]"
                 />
                 {item}
               </label>
@@ -180,7 +180,7 @@ function Checkin() {
               type="checkbox"
               checked={agree}
               onChange={() => setAgree(!agree)}
-              className="accent-[#6A4E3A]"
+              className="accent-[#713c00]"
             />
             <span className="text-sm">Saya menyetujui keterangan di atas</span>
           </label>
@@ -188,9 +188,8 @@ function Checkin() {
           <button
             type="submit"
             disabled={!isFormValid}
-            className={`mt-4 p-3 text-white rounded-xl shadow ${
-              isFormValid ? "bg-[#6A4E3A]" : "bg-gray-400"
-            }`}
+            className={`mt-4 p-3 text-white rounded-xl shadow ${isFormValid ? "bg-[#6A4E3A]" : "bg-gray-400"
+              }`}
           >
             {loading ? "Mengirim..." : "Submit"}
           </button>
@@ -246,8 +245,7 @@ function Checkout() {
     );
 
     setLoading(false);
-    alert("Data terkirim. Terima kasih!");
-    navigate("/");
+    navigate("/thanks");
   };
 
   const isFormValid =
@@ -309,7 +307,7 @@ function Checkout() {
                   type="checkbox"
                   checked={form.fasilitas.includes(item)}
                   onChange={() => handleCheck(item)}
-                  className="accent-[#6A4E3A]"
+                  className="accent-[#713c00]"
                 />
                 {item}
               </label>
@@ -330,7 +328,7 @@ function Checkout() {
               type="checkbox"
               checked={agree}
               onChange={() => setAgree(!agree)}
-              className="accent-[#6A4E3A]"
+              className="accent-[#713c00]"
             />
             <span className="text-sm">Saya menyetujui keterangan di atas</span>
           </label>
@@ -338,14 +336,23 @@ function Checkout() {
           <button
             type="submit"
             disabled={!isFormValid}
-            className={`mt-4 p-3 text-white rounded-xl shadow ${
-              isFormValid ? "bg-[#6A4E3A]" : "bg-gray-400"
-            }`}
+            className={`mt-4 p-3 text-white rounded-xl shadow ${isFormValid ? "bg-[#6A4E3A]" : "bg-gray-400"
+              }`}
           >
             {loading ? "Mengirim..." : "Submit"}
           </button>
         </form>
       </div>
+    </div>
+  );
+}
+function Thanks() {
+  return (
+    <div className="min-h-screen flex flex-col items-center justify-center p-6" style={{ background: "#6A4E3A" }}>
+      <img src={Logo} alt="Logo" className="w-40 mb-6" />
+      <h1 className="text-white text-2xl font-bold text-center">
+        Terimakasih Atas Kunjungannya !
+      </h1>
     </div>
   );
 }
