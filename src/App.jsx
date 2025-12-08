@@ -24,13 +24,13 @@ export default function App() {
 function Home() {
   return (
     <div className="min-h-screen flex items-center justify-center p-6" style={{ background: "#6A4E3A" }}>
-      <div className="max-w-80 w-full bg-white p-6 rounded-2xl shadow flex flex-col items-center gap-6">
+      <div className="max-w-xl w-full bg-white p-6 rounded-2xl shadow flex flex-col items-center gap-6">
         
         <img src={Logo} alt="Logo" className="mx-auto w-32 mb-2" />
 
         <Link
           to="/checkin"
-          className="w-26 text-center py-4 rounded-xl text-white font-semibold shadow"
+          className="w-full text-center py-4 rounded-xl text-white font-semibold shadow"
           style={{ background: "#6A4E3A" }}
         >
           Check In
@@ -38,7 +38,7 @@ function Home() {
 
         <Link
           to="/checkout"
-          className="w-26 text-center py-4 rounded-xl text-white font-semibold shadow"
+          className="w-full text-center py-4 rounded-xl text-white font-semibold shadow"
           style={{ background: "#A27B5C" }}
         >
           Check Out
