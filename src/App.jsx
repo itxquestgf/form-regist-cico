@@ -260,7 +260,7 @@ function Checkout() {
     <div className="min-h-screen p-6" style={{ background: "#6A4E3A" }}>
       <div className="max-w-xl mx-auto bg-white p-6 rounded-2xl shadow">
         <img src={Logo} alt="Logo" className="mx-auto w-32 mb-4" />
-
+<h2 className="text-amber-950 text-xl font-bold text-center mb-4">Form Check Out</h2>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <input
             type="text"
