@@ -17,12 +17,14 @@ export default function App() {
   );
 }
 
+/* ================= GLASS CARD ================= */
+
 function GlassCard({ children }) {
   return (
     <div className="
-      bg-white/80 backdrop-blur-md
-      border border-white/30
-      shadow-xl rounded-2xl
+      bg-[#1f2a44]/95 backdrop-blur-xl
+      border border-[#2c3554]
+      shadow-2xl rounded-2xl
       p-6
     ">
       {children}
@@ -30,29 +32,48 @@ function GlassCard({ children }) {
   );
 }
 
+/* ================= HOME ================= */
+
 function Home() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#4b3524] p-6">
+    <div className="min-h-screen flex items-center justify-center bg-[#192232] p-6">
       <GlassCard>
         <img src={Logo} className="w-32 mx-auto mb-6" />
+
         <div className="flex flex-col gap-4">
           <Link
             to="/checkin"
-            className="bg-[#6A4E3A] text-white py-3 rounded-xl text-center font-semibold"
+            className="
+              bg-[#f7c201] text-[#192232]
+              py-3 rounded-xl text-center
+              font-bold tracking-wide
+              hover:brightness-95 transition
+            "
           >
-            Check In
+            CHECK IN
           </Link>
+
           <Link
             to="/checkout"
-            className="bg-[#A27B5C] text-white py-3 rounded-xl text-center font-semibold"
+            className="
+              bg-transparent text-[#f7c201]
+              border-2 border-[#f7c201]
+              py-3 rounded-xl text-center
+              font-bold tracking-wide
+              hover:bg-[#f7c201]
+              hover:text-[#192232]
+              transition
+            "
           >
-            Check Out
+            CHECK OUT
           </Link>
         </div>
       </GlassCard>
     </div>
   );
 }
+
+/* ================= FORM ================= */
 
 function Form({ type }) {
   const navigate = useNavigate();
@@ -129,69 +150,75 @@ function Form({ type }) {
   };
 
   return (
-    <div className="min-h-screen bg-[#4b3524] p-6 flex items-center justify-center">
+    <div className="min-h-screen bg-[#192232] p-6 flex items-center justify-center">
       <div className="w-full max-w-md">
         <GlassCard>
-          <img src={Logo} className="w-28 mx-auto mb-4" />
-          <h2 className="text-center font-bold text-xl mb-4 text-[#4b3524]">
-            Form {type === "checkin" ? "Check In" : "Check Out"}
+          <img src={Logo} className="w-24 mx-auto mb-4" />
+
+          <h2 className="text-center font-bold text-xl mb-4 text-[#f7c201]">
+            {type === "checkin" ? "CHECK IN" : "CHECK OUT"}
           </h2>
 
           {error && (
-            <div className="bg-red-100 text-red-700 p-2 rounded mb-3 text-sm">
+            <div className="bg-red-500/20 text-red-300 p-2 rounded mb-3 text-sm">
               {error}
             </div>
           )}
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-            <input
-              className="p-3 border rounded-xl"
-              placeholder="Nama PIC"
-              onChange={e => setForm({ ...form, pic: e.target.value })}
-            />
 
-            <input
-              className="p-3 border rounded-xl"
-              placeholder="Kode Booking"
-              onChange={e => setForm({ ...form, bookingCode: e.target.value })}
-            />
+            {[
+              { label: "Nama PIC", key: "pic" },
+              { label: "Kode Booking", key: "bookingCode" },
+              { label: "Instansi", key: "instansi" }
+            ].map(({ label, key }) => (
+              <input
+                key={key}
+                className="
+                  p-3 rounded-xl
+                  bg-[#192232] border border-[#2c3554]
+                  text-white placeholder-gray-400
+                  focus:outline-none
+                  focus:ring-2 focus:ring-[#f7c201]
+                "
+                placeholder={label}
+                onChange={e => setForm({ ...form, [key]: e.target.value })}
+              />
+            ))}
 
             <input
               type="number"
-              className="p-3 border rounded-xl"
+              className="
+                p-3 rounded-xl
+                bg-[#192232] border border-[#2c3554]
+                text-white placeholder-gray-400
+                focus:ring-2 focus:ring-[#f7c201]
+              "
               placeholder="Jumlah Rombongan"
               onChange={e => setForm({ ...form, jumlah: e.target.value })}
             />
 
-            <input
-              className="p-3 border rounded-xl"
-              placeholder="Instansi"
-              onChange={e => setForm({ ...form, instansi: e.target.value })}
-            />
-
             <div>
-              <p className="font-semibold mb-1">Area Dikunjungi</p>
+              <p className="font-semibold mb-1 text-white">
+                Area Dikunjungi
+              </p>
+
               {fasilitasList.map(item => (
-                <label key={item} className="flex gap-2 text-sm">
-                  <input type="checkbox" onChange={() => handleCheck(item)} />
+                <label key={item} className="flex gap-2 text-sm text-gray-300">
+                  <input
+                    type="checkbox"
+                    className="accent-[#f7c201]"
+                    onChange={() => handleCheck(item)}
+                  />
                   {item}
                 </label>
               ))}
             </div>
 
-            <p className="text-sm text-gray-700 mt-3 leading-relaxed">
-              Dengan ini saya selaku PIC/Penanggung jawab rombongan menyatakan bahwa
-              seluruh rombongan telah membaca/diberikan pengarahan keselamatan
-              (safety induction) melalui handbook kunjungan Chocolatos X-Quest,
-              tidak membawa barang terlarang seperti korek api, senjata tajam, atau
-              makanan/minuman yang dibatasi, serta berada dalam kondisi kesehatan
-              yang layak tanpa penyakit berisiko.
-            </p>
-
-            <label className="flex gap-2 text-sm items-start">
+            <label className="flex gap-2 text-sm text-gray-300 items-start mt-2">
               <input
                 type="checkbox"
-                className="mt-1 accent-[#6A4E3A]"
+                className="mt-1 accent-[#f7c201]"
                 onChange={() => setAgree(!agree)}
               />
               <span>Saya menyetujui keterangan di atas</span>
@@ -199,11 +226,16 @@ function Form({ type }) {
 
             <button
               disabled={!isFormValid}
-              className={`p-3 rounded-xl text-white font-semibold ${
-                isFormValid ? "bg-[#6A4E3A]" : "bg-gray-400"
-              }`}
+              className={`
+                mt-2 p-3 rounded-xl font-bold tracking-wide transition
+                ${
+                  isFormValid
+                    ? "bg-[#f7c201] text-[#192232] hover:brightness-95"
+                    : "bg-gray-600 text-gray-400"
+                }
+              `}
             >
-              {loading ? "Mengirim..." : "Submit"}
+              {loading ? "MENGIRIM..." : "SUBMIT"}
             </button>
           </form>
         </GlassCard>
@@ -212,13 +244,15 @@ function Form({ type }) {
   );
 }
 
+/* ================= THANKS ================= */
+
 function Thanks() {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-[#4b3524]">
+    <div className="min-h-screen flex items-center justify-center bg-[#192232]">
       <GlassCard>
-        <img src={Logo} className="w-40 mx-auto mb-4" />
-        <h1 className="text-[#4b3524] text-2xl font-bold text-center">
-          Terima Kasih Atas Kunjungannya
+        <img src={Logo} className="w-36 mx-auto mb-4" />
+        <h1 className="text-[#f7c201] text-2xl font-bold text-center">
+          TERIMA KASIH ATAS KUNJUNGANNYA
         </h1>
       </GlassCard>
     </div>
