@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from "react
 import { useState } from "react";
 import Logo from "./assets/logo.png";
 
-const SCRIPT_URL = "PASTE_SCRIPT_URL_KAMU";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwdEdqgjowtoE-38ffowgc-O59RxJtGyyI3UxvIyR7IuNZTVc24akRPBMjKl3eBwADy/exec";
 
 export default function App() {
   return (
@@ -21,12 +21,7 @@ export default function App() {
 
 function GlassCard({ children }) {
   return (
-    <div className="
-      bg-[#1f2a44]/95 backdrop-blur-xl
-      border border-[#2c3554]
-      shadow-2xl rounded-2xl
-      p-6
-    ">
+    <div className="bg-[#1f2a44]/95 backdrop-blur-xl border border-[#2c3554] shadow-2xl rounded-2xl p-6">
       {children}
     </div>
   );
@@ -39,22 +34,13 @@ function Home() {
     <div className="min-h-screen flex items-center justify-center bg-[#192232] p-6">
       <GlassCard>
         <img src={Logo} className="w-32 mx-auto mb-6" />
-
         <div className="flex flex-col gap-4">
-          <Link
-            to="/checkin"
-            className="bg-[#f7c201] text-[#192232] py-3 rounded-xl text-center font-bold"
-          >
+          <Link to="/checkin" className="bg-[#f7c201] text-[#192232] py-3 rounded-xl text-center font-bold">
             CHECK IN
           </Link>
-
           <Link
             to="/checkout"
-            className="
-              border-2 border-[#f7c201] text-[#f7c201]
-              py-3 rounded-xl text-center font-bold
-              hover:bg-[#f7c201] hover:text-[#192232]
-            "
+            className="border-2 border-[#f7c201] text-[#f7c201] py-3 rounded-xl text-center font-bold hover:bg-[#f7c201] hover:text-[#192232]"
           >
             CHECK OUT
           </Link>
@@ -88,6 +74,14 @@ function Form({ type }) {
     "Merchandise Store"
   ];
 
+  const jenisKendaraanList = [
+    "Bus",
+    "Mobil",
+    "Motor",
+    "Elf / Hiace",
+    "Lainnya"
+  ];
+
   const handleCheck = (item) => {
     setForm(prev => ({
       ...prev,
@@ -102,13 +96,16 @@ function Form({ type }) {
     setForm(prev => ({
       ...prev,
       jumlahKendaraan: jumlah,
-      kendaraan: Array.from({ length: jumlah }, (_, i) => prev.kendaraan[i] || "")
+      kendaraan: Array.from(
+        { length: jumlah },
+        (_, i) => prev.kendaraan[i] || { jenis: "", plat: "" }
+      )
     }));
   };
 
-  const handlePlatChange = (i, val) => {
+  const handleKendaraanChange = (i, key, value) => {
     const arr = [...form.kendaraan];
-    arr[i] = val.toUpperCase();
+    arr[i] = { ...arr[i], [key]: key === "plat" ? value.toUpperCase() : value };
     setForm({ ...form, kendaraan: arr });
   };
 
@@ -120,20 +117,31 @@ function Form({ type }) {
     form.fasilitas.length > 0 &&
     agree;
 
+  /* ================= SUBMIT (FIXED) ================= */
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError("");
 
+    const kendaraanString = form.kendaraan
+      .map(k => `${k.jenis || "?"} - ${k.plat || "?"}`)
+      .join(" | ");
+
+    const params = new URLSearchParams();
+    params.append("pic", form.pic);
+    params.append("bookingCode", form.bookingCode);
+    params.append("jumlah", String(form.jumlah));
+    params.append("instansi", form.instansi);
+    params.append("fasilitas", form.fasilitas.join(", "));
+    params.append("jumlahKendaraan", String(form.jumlahKendaraan));
+    params.append("kendaraan", kendaraanString);
+    params.append("type", type);
+
     try {
       const res = await fetch(SCRIPT_URL, {
         method: "POST",
-        body: new URLSearchParams({
-          ...form,
-          fasilitas: form.fasilitas.join(", "),
-          kendaraan: form.kendaraan.join(", "),
-          type
-        })
+        body: params
       });
 
       const text = await res.text();
@@ -163,16 +171,11 @@ function Form({ type }) {
       <div className="w-full max-w-md">
         <GlassCard>
           <img src={Logo} className="w-24 mx-auto mb-4" />
-
           <h2 className="text-center font-bold text-xl mb-4 text-[#f7c201]">
             {type === "checkin" ? "CHECK IN" : "CHECK OUT"}
           </h2>
 
-          {error && (
-            <div className="bg-red-500/20 text-red-300 p-2 rounded mb-3 text-sm">
-              {error}
-            </div>
-          )}
+          {error && <div className="bg-red-500/20 text-red-300 p-2 rounded mb-3 text-sm">{error}</div>}
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-3">
 
@@ -205,13 +208,24 @@ function Form({ type }) {
               onChange={e => handleJumlahKendaraan(e.target.value)}
             />
 
-            {form.kendaraan.map((_, i) => (
-              <input
-                key={i}
-                placeholder={`Plat Nomor Kendaraan ${i + 1}`}
-                className="p-3 rounded-xl bg-[#192232] border border-[#2c3554] text-white"
-                onChange={e => handlePlatChange(i, e.target.value)}
-              />
+            {form.kendaraan.map((k, i) => (
+              <div key={i} className="grid grid-cols-2 gap-2">
+                <select
+                  className="p-3 rounded-xl bg-[#192232] border border-[#2c3554] text-white"
+                  onChange={e => handleKendaraanChange(i, "jenis", e.target.value)}
+                >
+                  <option value="">Jenis Kendaraan</option>
+                  {jenisKendaraanList.map(j => (
+                    <option key={j} value={j}>{j}</option>
+                  ))}
+                </select>
+
+                <input
+                  placeholder={`Plat Nomor ${i + 1}`}
+                  className="p-3 rounded-xl bg-[#192232] border border-[#2c3554] text-white"
+                  onChange={e => handleKendaraanChange(i, "plat", e.target.value)}
+                />
+              </div>
             ))}
 
             <div>
@@ -224,7 +238,7 @@ function Form({ type }) {
               ))}
             </div>
 
-            {/* ⛔ PARAGRAF TIDAK DIHILANGKAN */}
+            {/* 🔒 SAFETY STATEMENT (TIDAK DIHAPUS) */}
             <p className="text-sm text-gray-300 mt-3 leading-relaxed">
               Dengan ini saya selaku PIC/Penanggung jawab rombongan menyatakan bahwa
               seluruh rombongan telah membaca/diberikan pengarahan keselamatan
@@ -242,13 +256,12 @@ function Form({ type }) {
             <button
               disabled={!isFormValid}
               className={`p-3 rounded-xl font-bold ${
-                isFormValid
-                  ? "bg-[#f7c201] text-[#192232]"
-                  : "bg-gray-600 text-gray-400"
+                isFormValid ? "bg-[#f7c201] text-[#192232]" : "bg-gray-600 text-gray-400"
               }`}
             >
               {loading ? "MENGIRIM..." : "SUBMIT"}
             </button>
+
           </form>
         </GlassCard>
       </div>
