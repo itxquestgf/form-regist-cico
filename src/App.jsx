@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from "react
 import { useState } from "react";
 import Logo from "./assets/logo.png";
 
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxqEDH1ME9f9nNi5XzHgtBKRc9_qGY9wLfTAk8vast-rhzJwQWp9RDLRIRbTNztn_s/exec";
+const SCRIPT_URL = "PASTE_SCRIPT_URL_KAMU";
 
 export default function App() {
   return (
@@ -43,12 +43,7 @@ function Home() {
         <div className="flex flex-col gap-4">
           <Link
             to="/checkin"
-            className="
-              bg-[#f7c201] text-[#192232]
-              py-3 rounded-xl text-center
-              font-bold tracking-wide
-              hover:brightness-95 transition
-            "
+            className="bg-[#f7c201] text-[#192232] py-3 rounded-xl text-center font-bold"
           >
             CHECK IN
           </Link>
@@ -56,13 +51,9 @@ function Home() {
           <Link
             to="/checkout"
             className="
-              bg-transparent text-[#f7c201]
-              border-2 border-[#f7c201]
-              py-3 rounded-xl text-center
-              font-bold tracking-wide
-              hover:bg-[#f7c201]
-              hover:text-[#192232]
-              transition
+              border-2 border-[#f7c201] text-[#f7c201]
+              py-3 rounded-xl text-center font-bold
+              hover:bg-[#f7c201] hover:text-[#192232]
             "
           >
             CHECK OUT
@@ -86,7 +77,9 @@ function Form({ type }) {
     bookingCode: "",
     jumlah: "",
     instansi: "",
-    fasilitas: []
+    fasilitas: [],
+    jumlahKendaraan: 0,
+    kendaraan: []
   });
 
   const fasilitasList = [
@@ -102,6 +95,21 @@ function Form({ type }) {
         ? prev.fasilitas.filter(i => i !== item)
         : [...prev.fasilitas, item]
     }));
+  };
+
+  const handleJumlahKendaraan = (val) => {
+    const jumlah = Math.min(10, Math.max(0, Number(val)));
+    setForm(prev => ({
+      ...prev,
+      jumlahKendaraan: jumlah,
+      kendaraan: Array.from({ length: jumlah }, (_, i) => prev.kendaraan[i] || "")
+    }));
+  };
+
+  const handlePlatChange = (i, val) => {
+    const arr = [...form.kendaraan];
+    arr[i] = val.toUpperCase();
+    setForm({ ...form, kendaraan: arr });
   };
 
   const isFormValid =
@@ -122,6 +130,8 @@ function Form({ type }) {
         method: "POST",
         body: new URLSearchParams({
           ...form,
+          fasilitas: form.fasilitas.join(", "),
+          kendaraan: form.kendaraan.join(", "),
           type
         })
       });
@@ -135,7 +145,6 @@ function Form({ type }) {
           ALREADY_CHECKOUT: "Booking sudah check-out",
           NOT_CHECKED_IN: "Belum check-in"
         };
-
         setError(messages[text] || "Terjadi kesalahan");
         setLoading(false);
         return;
@@ -168,72 +177,75 @@ function Form({ type }) {
           <form onSubmit={handleSubmit} className="flex flex-col gap-3">
 
             {[
-              { label: "Nama PIC", key: "pic" },
-              { label: "Kode Booking", key: "bookingCode" },
-              { label: "Instansi", key: "instansi" }
-            ].map(({ label, key }) => (
+              ["Nama PIC", "pic"],
+              ["Kode Booking", "bookingCode"],
+              ["Instansi", "instansi"]
+            ].map(([label, key]) => (
               <input
                 key={key}
-                className="
-                  p-3 rounded-xl
-                  bg-[#192232] border border-[#2c3554]
-                  text-white placeholder-gray-400
-                  focus:outline-none
-                  focus:ring-2 focus:ring-[#f7c201]
-                "
                 placeholder={label}
+                className="p-3 rounded-xl bg-[#192232] border border-[#2c3554] text-white"
                 onChange={e => setForm({ ...form, [key]: e.target.value })}
               />
             ))}
 
             <input
               type="number"
-              className="
-                p-3 rounded-xl
-                bg-[#192232] border border-[#2c3554]
-                text-white placeholder-gray-400
-                focus:ring-2 focus:ring-[#f7c201]
-              "
               placeholder="Jumlah Rombongan"
+              className="p-3 rounded-xl bg-[#192232] border border-[#2c3554] text-white"
               onChange={e => setForm({ ...form, jumlah: e.target.value })}
             />
 
-            <div>
-              <p className="font-semibold mb-1 text-white">
-                Area Dikunjungi
-              </p>
+            <input
+              type="number"
+              min="0"
+              max="10"
+              placeholder="Jumlah Kendaraan (Max 10)"
+              className="p-3 rounded-xl bg-[#192232] border border-[#2c3554] text-white"
+              onChange={e => handleJumlahKendaraan(e.target.value)}
+            />
 
+            {form.kendaraan.map((_, i) => (
+              <input
+                key={i}
+                placeholder={`Plat Nomor Kendaraan ${i + 1}`}
+                className="p-3 rounded-xl bg-[#192232] border border-[#2c3554] text-white"
+                onChange={e => handlePlatChange(i, e.target.value)}
+              />
+            ))}
+
+            <div>
+              <p className="font-semibold mb-1 text-white">Area Dikunjungi</p>
               {fasilitasList.map(item => (
                 <label key={item} className="flex gap-2 text-sm text-gray-300">
-                  <input
-                    type="checkbox"
-                    className="accent-[#f7c201]"
-                    onChange={() => handleCheck(item)}
-                  />
+                  <input type="checkbox" className="accent-[#f7c201]" onChange={() => handleCheck(item)} />
                   {item}
                 </label>
               ))}
             </div>
 
-            <label className="flex gap-2 text-sm text-gray-300 items-start mt-2">
-              <input
-                type="checkbox"
-                className="mt-1 accent-[#f7c201]"
-                onChange={() => setAgree(!agree)}
-              />
+            {/* ⛔ PARAGRAF TIDAK DIHILANGKAN */}
+            <p className="text-sm text-gray-300 mt-3 leading-relaxed">
+              Dengan ini saya selaku PIC/Penanggung jawab rombongan menyatakan bahwa
+              seluruh rombongan telah membaca/diberikan pengarahan keselamatan
+              (safety induction) melalui handbook kunjungan Chocolatos X-Quest,
+              tidak membawa barang terlarang seperti korek api, senjata tajam, atau
+              makanan/minuman yang dibatasi, serta berada dalam kondisi kesehatan
+              yang layak tanpa penyakit berisiko.
+            </p>
+
+            <label className="flex gap-2 text-sm text-gray-300 items-start">
+              <input type="checkbox" className="accent-[#f7c201]" onChange={() => setAgree(!agree)} />
               <span>Saya menyetujui keterangan di atas</span>
             </label>
 
             <button
               disabled={!isFormValid}
-              className={`
-                mt-2 p-3 rounded-xl font-bold tracking-wide transition
-                ${
-                  isFormValid
-                    ? "bg-[#f7c201] text-[#192232] hover:brightness-95"
-                    : "bg-gray-600 text-gray-400"
-                }
-              `}
+              className={`p-3 rounded-xl font-bold ${
+                isFormValid
+                  ? "bg-[#f7c201] text-[#192232]"
+                  : "bg-gray-600 text-gray-400"
+              }`}
             >
               {loading ? "MENGIRIM..." : "SUBMIT"}
             </button>
