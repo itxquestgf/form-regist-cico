@@ -11,6 +11,10 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.17",
+    "express": "^5.2.1",
+    "firebase": "^12.7.0",
+    "firebase-admin": "^13.6.0",
+    "json2csv": "^6.0.0-alpha.2",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-router-dom": "^7.10.1",
