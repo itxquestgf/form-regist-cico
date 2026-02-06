@@ -1,6 +1,6 @@
 import LogoImg from "../assets/logo.png";
 
-export const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwrM9UQdB6vgBmpqJi4NJ3S8g4orNGT38JGfxIcdVXsNHxxIfTMmBH6wXyY8aO2YdUawg/exec";
+export const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwg-9kWjeXpnB7vW640ukm2XmhlcUhADeaBdBodQbeNvFApnsQg4UBgICQwkJ_QDB30Fw/exec";
 export const Logo = LogoImg;
 
 export function AnimatedBackground() {
