@@ -23,7 +23,7 @@ export default function Checkin() {
 
   const isCafe = area === "Cafe";
   const judulHalaman = isCafe 
-    ? "CHECK IN Chocolatos Café dan Merchandise Store" 
+    ? "CHECK IN Chocolatos Café & Merchandise Store" 
     : "CHECK IN Wahana Chocolatos X-Quest";
 
   const opsiTujuan = isCafe

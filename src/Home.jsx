@@ -41,7 +41,7 @@ export default function Home() {
                 className="group relative block text-center py-4 px-6 rounded-2xl font-bold text-[#c3a11d] border-2 border-[#c3a11d] overflow-hidden transition-all duration-300 transform hover:scale-105"
               >
                 <div className="absolute inset-0 bg-[#c3a11d]/5 group-hover:bg-[#c3a11d]/10 transition-colors"></div>
-                <span className="relative z-10 tracking-wide uppercase text-sm">CHECK IN Café & Merchandise</span>
+                <span className="relative z-10 tracking-wide uppercase text-sm">CHECK IN Cocolatos Café & Merchandise</span>
               </Link>
 
               <div className="w-full h-[1px] bg-white/10 my-2"></div>
