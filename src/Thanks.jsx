@@ -40,7 +40,7 @@ export default function Thanks() {
                         <div className="w-24 h-1 bg-gradient-to-r from-[#f7c201] to-[#ffd54a] rounded-full mb-6"></div>
 
                         <p className="text-center text-gray-300 mb-4 leading-relaxed">
-                            Anda berhasil <span className="font-bold text-[#f7c201]">{isCheckin ? "Check-In" : "Check-Out"}</span> dengan kode booking:
+                            Anda berhasil <span className="font-bold text-[#f7c201]">{isCheckin ? "CHECK IN" : "Check-Out"}</span> dengan kode booking:
                         </p>
 
                         <div className="w-full mb-6 relative group">
@@ -66,7 +66,7 @@ export default function Thanks() {
                         </div>
                         <div className="p-6 rounded-2xl bg-white/5 border border-white/10 text-center">
                             <p className="text-gray-300 text-sm leading-relaxed">
-                                Silakan capture/Screen Shoot/Tangkap layar kode booking ini dan tunjukkan pada security saat memasuki kawasan Pabrik Garudafood Sumedang
+                                Silakan capture/Screen Shoot/Tangkap layar kode booking ini dan tunjukkan pada security/satpam saat memasuki kawasan Pabrik Garudafood Sumedang
                             </p>
                         </div>
 

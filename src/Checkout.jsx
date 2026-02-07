@@ -28,7 +28,7 @@ export default function Checkout() {
         }, 1500);
       } else {
         const messages = { 
-          NOT_CHECKED_IN: "Kode booking ini belum melakukan Check-in.", 
+          NOT_CHECKED_IN: "Kode booking ini belum melakukan CHECK IN.", 
           ALREADY_CHECKOUT: "Kode booking ini sudah melakukan Check-out sebelumnya.",
           INVALID: "Kode booking tidak valid."
         };
@@ -104,7 +104,7 @@ export default function Checkout() {
                 className="mt-1 w-6 h-6 accent-[#c3a11d] flex-shrink-0 cursor-pointer" 
               />
               <span className="text-[11.5px] leading-relaxed text-gray-200 italic">
-                "Dengan ini saya selaku <span className="text-[#c3a11d] font-bold not-italic">PIC/Penanggung Jawab Rombongan</span> menyatakan bahwa seluruh rangkaian kunjungan ke area Chocolatos X-Quest (termasuk Merchandise Store dan Chocolatos Café) selesai dilaksanakan dengan aman dan tertib. Saya memastikan seluruh anggota rombongan meninggalkan area pabrik dalam kondisi sehat serta tidak membawa barang atau aset milik perusahaan tanpa izin."
+                "Dengan ini saya selaku <span className="text-[#c3a11d] font-bold not-italic">PIC/Penanggung Jawab Rombongan</span> menyatakan bahwa seluruh rangkaian kunjungan ke area Chocolatos X-Quest (termasuk Merchandise Store dan Chocolatos Café) selesai dilaksanakan dengan aman dan tertib. Saya memastikan seluruh anggota rombongan meninggalkan area pabrik Garudafood Sumedang dalam kondisi sehat serta tidak membawa barang atau aset milik perusahaan tanpa izin."
               </span>
             </label>
 

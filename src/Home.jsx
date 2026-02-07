@@ -22,7 +22,7 @@ export default function Home() {
             </h1>
             
             <p className="text-sm text-gray-300 text-center leading-relaxed max-w-xs opacity-90">
-              Silakan melakukan registrasi check-in kunjungan Anda sesuai dengan area yang dituju.
+              Silakan melakukan registrasi CHECK IN kunjungan Anda sesuai dengan area yang dituju.
             </p>
 
             <div className="w-full mt-8 flex flex-col gap-5">
@@ -32,7 +32,7 @@ export default function Home() {
                 className="group relative block text-center py-4 px-6 rounded-2xl font-bold text-white overflow-hidden transition-all duration-300 transform hover:scale-105 shadow-lg shadow-[#c3a11d]/20"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-[#c3a11d] via-[#d4b53c] to-[#c3a11d] bg-[length:200%_100%] animate-gradient-x"></div>
-                <span className="relative z-10 tracking-wide uppercase">CHECK IN Wahana Chocolatos X-Quest</span>
+                <span className="relative z-10 tracking-wide uppercase text-sm">CHECK IN Wahana Chocolatos X-Quest</span>
               </Link>
 
               {/* TOMBOL CAFE */}
@@ -41,15 +41,15 @@ export default function Home() {
                 className="group relative block text-center py-4 px-6 rounded-2xl font-bold text-[#c3a11d] border-2 border-[#c3a11d] overflow-hidden transition-all duration-300 transform hover:scale-105"
               >
                 <div className="absolute inset-0 bg-[#c3a11d]/5 group-hover:bg-[#c3a11d]/10 transition-colors"></div>
-                <span className="relative z-10 tracking-wide uppercase">CHECK IN Café & Merchandise</span>
+                <span className="relative z-10 tracking-wide uppercase text-sm">CHECK IN Café & Merchandise</span>
               </Link>
 
               <div className="w-full h-[1px] bg-white/10 my-2"></div>
 
-              {/* TOMBOL CHECKOUT - SEKARANG BERWARNA MERAH */}
+              {/* UPDATE: TOMBOL CHECKOUT - WARNA CYAN */}
               <Link
                 to="/checkout"
-                className="w-full py-4 rounded-2xl font-bold text-center text-white bg-red-600 hover:bg-red-700 transition-all duration-300 shadow-lg shadow-red-900/40 transform hover:scale-105 active:scale-95"
+                className="w-full py-4 rounded-2xl font-bold text-center text-[#192232] bg-gradient-to-r from-cyan-400 to-cyan-500 hover:from-cyan-300 hover:to-cyan-400 transition-all duration-300 shadow-lg shadow-cyan-900/40 transform hover:scale-105 active:scale-95 text-sm uppercase"
               >
                 Sudah selesai? Klik di sini untuk Check Out
               </Link>
