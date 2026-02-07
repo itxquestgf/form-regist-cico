@@ -8,7 +8,6 @@ export default function Home() {
       <div className="w-full max-w-lg relative z-10 animate-fade-in">
         <GlassCard className="transform hover:scale-[1.02] transition-transform duration-500">
           <div className="flex flex-col items-center gap-4">
-            {/* LOGO SECTION WITH NEW GOLD GLOW */}
             <div className="relative">
               <div className="absolute inset-0 bg-[#c3a11d]/30 blur-3xl rounded-full animate-pulse"></div>
               <img 
@@ -27,28 +26,30 @@ export default function Home() {
             </p>
 
             <div className="w-full mt-8 flex flex-col gap-5">
-              {/* TOMBOL WAHANA - FULL GOLD BRONZE */}
+              {/* TOMBOL WAHANA */}
               <Link
                 to="/checkin?area=Wahana"
                 className="group relative block text-center py-4 px-6 rounded-2xl font-bold text-white overflow-hidden transition-all duration-300 transform hover:scale-105 shadow-lg shadow-[#c3a11d]/20"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-[#c3a11d] via-[#d4b53c] to-[#c3a11d] bg-[length:200%_100%] animate-gradient-x"></div>
-                <span className="relative z-10 tracking-wide">CHECK IN Wahana Chocolatos X-Quest</span>
+                <span className="relative z-10 tracking-wide uppercase">CHECK IN Wahana Chocolatos X-Quest</span>
               </Link>
 
-              {/* TOMBOL CAFE - OUTLINE GOLD BRONZE */}
+              {/* TOMBOL CAFE */}
               <Link
                 to="/checkin?area=Cafe"
                 className="group relative block text-center py-4 px-6 rounded-2xl font-bold text-[#c3a11d] border-2 border-[#c3a11d] overflow-hidden transition-all duration-300 transform hover:scale-105"
               >
                 <div className="absolute inset-0 bg-[#c3a11d]/5 group-hover:bg-[#c3a11d]/10 transition-colors"></div>
-                <span className="relative z-10 tracking-wide">CHECK IN Café & Merchandise</span>
+                <span className="relative z-10 tracking-wide uppercase">CHECK IN Café & Merchandise</span>
               </Link>
 
-              {/* TOMBOL CHECKOUT - OPTIONAL (Jika ingin diletakkan di home juga) */}
+              <div className="w-full h-[1px] bg-white/10 my-2"></div>
+
+              {/* TOMBOL CHECKOUT - SEKARANG BERWARNA MERAH */}
               <Link
                 to="/checkout"
-                className="text-center text-gray-400 hover:text-[#c3a11d] text-xs font-medium transition-colors mt-2 tracking-[0.2em] uppercase"
+                className="w-full py-4 rounded-2xl font-bold text-center text-white bg-red-600 hover:bg-red-700 transition-all duration-300 shadow-lg shadow-red-900/40 transform hover:scale-105 active:scale-95"
               >
                 Sudah selesai? Klik di sini untuk Check Out
               </Link>
@@ -57,7 +58,6 @@ export default function Home() {
         </GlassCard>
       </div>
       
-      {/* FOOTER DECORATION */}
       <p className="absolute bottom-6 text-[10px] text-gray-500 tracking-widest uppercase z-10">
         Premium Visitor Management System
       </p>

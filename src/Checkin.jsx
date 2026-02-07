@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { AnimatedBackground, GlassCard, Logo, SCRIPT_URL } from "./components/SharedLayout";
-import SafetyImage from "../src/assets/safety-induction.jpg"; // Pastikan path gambar benar
+import SafetyImage from "../src/assets/safety-induction.jpg"; 
 
 export default function Checkin() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const area = searchParams.get("area") || "Wahana";
 
-  const [step, setStep] = useState(1); // Step 1: Form, Step 2: Persetujuan
+  const [step, setStep] = useState(1); 
   const [loading, setLoading] = useState(false);
   const [agree, setAgree] = useState(false);
   const [error, setError] = useState("");
@@ -41,7 +41,7 @@ export default function Checkin() {
     setForm((prev) => ({
       ...prev,
       jumlahKendaraan: jumlah,
-      kendaraan: Array.from({ length: jumlah }, (_, i) => prev.kendaraan[i] || { jenis: "", plat: "" })
+      kendaraan: Array.from({ length: jumlah }, (_, i) => prev.kendaraan[i] || { jenis: "Mobil", plat: "" })
     }));
   };
 
@@ -89,11 +89,10 @@ export default function Checkin() {
     <div className="min-h-screen p-6 flex items-center justify-center relative overflow-x-hidden">
       <AnimatedBackground />
 
-      {/* --- LOADING SCREEN --- */}
       {loading && (
         <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#3f372f]/95 backdrop-blur-md">
           <img src={Logo} className="w-32 mb-8 animate-bounce-slow" alt="Loading" />
-          <p className="text-[#c3a11d] font-bold tracking-[0.2em] animate-pulse">GENERATING BOOKING CODE...</p>
+          <p className="text-[#c3a11d] font-bold tracking-[0.2em] animate-pulse uppercase">Generating Booking Code...</p>
         </div>
       )}
 
@@ -101,18 +100,18 @@ export default function Checkin() {
         <GlassCard>
           <div className="flex flex-col items-center mb-6 text-center">
             <img src={Logo} className="w-24 mb-4" alt="Logo" />
-            <h2 className="font-bold text-xl text-transparent bg-clip-text bg-gradient-to-r from-[#c3a11d] to-[#e2c14d]">
-              {step === 1 ? judulHalaman : "SAFETY INDUCTION"}
+            <h2 className="font-bold text-xl text-transparent bg-clip-text bg-gradient-to-r from-[#c3a11d] to-[#e2c14d] uppercase tracking-wide">
+              {step === 1 ? judulHalaman : "Safety Induction"}
             </h2>
             <div className="w-20 h-1 bg-[#c3a11d] rounded-full mt-2"></div>
           </div>
 
           {step === 1 ? (
-            /* --- TAMPILAN DATA (STEP 1) --- */
             <form onSubmit={handleNext} className="flex flex-col gap-4">
+              {/* UPDATE: Nama Lengkap PIC -> Nama */}
               <input
-                type="text" required placeholder="Nama Lengkap PIC"
-                className="w-full px-4 py-4 rounded-2xl bg-white/5 border border-white/10 text-white focus:ring-2 focus:ring-[#c3a11d]/50"
+                type="text" required placeholder="Nama"
+                className="w-full px-4 py-4 rounded-2xl bg-white/5 border border-white/10 text-white focus:ring-2 focus:ring-[#c3a11d]/50 outline-none transition-all"
                 value={form.nama} onChange={(e) => setForm({...form, nama: e.target.value})}
               />
 
@@ -120,9 +119,9 @@ export default function Checkin() {
                 <p className="text-sm font-bold mb-3 text-[#c3a11d]">Tujuan Kunjungan</p>
                 <div className="space-y-3">
                   {opsiTujuan.map((opt) => (
-                    <label key={opt} className="flex items-center gap-3 cursor-pointer text-gray-300">
-                      <input type="radio" name="tujuan" required className="accent-[#c3a11d]" onChange={() => setForm({...form, tujuan: opt})} />
-                      {opt}
+                    <label key={opt} className="flex items-center gap-3 cursor-pointer text-gray-300 hover:text-white transition-colors">
+                      <input type="radio" name="tujuan" required className="w-4 h-4 accent-[#c3a11d]" onChange={() => setForm({...form, tujuan: opt})} />
+                      <span className="text-sm">{opt}</span>
                     </label>
                   ))}
                 </div>
@@ -130,32 +129,46 @@ export default function Checkin() {
 
               <input
                 type="number" required placeholder="Jumlah Rombongan (Orang)"
-                className="w-full px-4 py-4 rounded-2xl bg-white/5 border border-white/10 text-white"
+                className="w-full px-4 py-4 rounded-2xl bg-white/5 border border-white/10 text-white outline-none"
                 value={form.jumlah} onChange={(e) => setForm({...form, jumlah: e.target.value})}
               />
 
               <input
                 type="number" placeholder="Jumlah kendaraan"
-                className="w-full px-4 py-4 rounded-2xl bg-white/5 border border-white/10 text-white"
+                className="w-full px-4 py-4 rounded-2xl bg-white/5 border border-white/10 text-white outline-none"
                 value={form.jumlahKendaraan || ""} onChange={(e) => handleJumlahKendaraan(e.target.value)}
               />
 
               {form.kendaraan.map((k, i) => (
-                <div key={i} className="grid grid-cols-2 gap-3 p-4 rounded-2xl bg-white/5 border border-white/10">
-                  <select required className="bg-[#2d2822] text-white p-2 rounded-xl" value={k.jenis} onChange={(e) => handleKendaraanChange(i, "jenis", e.target.value)}>
-                    <option value="">Jenis</option>
-                    {["Bus", "Mobil", "Motor", "Lainnya"].map(j => <option key={j} value={j}>{j}</option>)}
+                <div key={i} className="grid grid-cols-2 gap-3 p-4 rounded-2xl bg-white/5 border border-white/10 animate-slide-in">
+                  <select 
+                    required 
+                    className="bg-[#2d2822] text-white p-2 rounded-xl border border-white/10 outline-none text-sm" 
+                    value={k.jenis} 
+                    onChange={(e) => handleKendaraanChange(i, "jenis", e.target.value)}
+                  >
+                    {/* UPDATE: Hapus placeholder 'Jenis', Ganti Lainnya jadi Mini Bus */}
+                    <option value="Mobil">Mobil</option>
+                    <option value="Motor">Motor</option>
+                    <option value="Bus">Bus</option>
+                    <option value="Mini Bus">Mini Bus</option>
+                    <option value="Elf / Hiace">Elf / Hiace</option>
                   </select>
-                  <input required placeholder="Plat Nomor" className="bg-white/5 text-white p-2 rounded-xl uppercase" value={k.plat} onChange={(e) => handleKendaraanChange(i, "plat", e.target.value)} />
+                  <input 
+                    required 
+                    placeholder="Plat Nomor" 
+                    className="bg-white/5 text-white p-2 rounded-xl uppercase border border-white/10 outline-none text-sm" 
+                    value={k.plat} 
+                    onChange={(e) => handleKendaraanChange(i, "plat", e.target.value)} 
+                  />
                 </div>
               ))}
 
-              <button type="submit" className="w-full mt-4 py-4 rounded-2xl font-bold text-white bg-gradient-to-r from-[#c3a11d] to-[#e2c14d]">
+              <button type="submit" className="w-full mt-4 py-4 rounded-2xl font-bold text-white bg-gradient-to-r from-[#c3a11d] to-[#e2c14d] hover:brightness-110 active:scale-95 transition-all shadow-lg shadow-[#c3a11d]/20">
                 SELANJUTNYA
               </button>
             </form>
           ) : (
-            /* --- TAMPILAN PERSETUJUAN (STEP 2) --- */
             <div className="flex flex-col gap-4 animate-slide-in">
               <div className="rounded-2xl overflow-hidden border border-[#c3a11d]/30 shadow-lg bg-black/20">
                 <img src={SafetyImage} alt="Safety Induction" className="w-full h-auto object-cover" />
@@ -175,13 +188,16 @@ export default function Checkin() {
                 </div>
               </div>
 
-              <label className="flex gap-4 items-center cursor-pointer p-4 rounded-2xl bg-[#c3a11d]/10 border border-[#c3a11d]/30">
+              {/* UPDATE: Teks Persetujuan Baru */}
+              <label className="flex gap-4 items-center cursor-pointer p-4 rounded-2xl bg-[#c3a11d]/10 border border-[#c3a11d]/30 hover:bg-[#c3a11d]/20 transition-all">
                 <input 
                   type="checkbox" required checked={agree} 
                   onChange={() => setAgree(!agree)} 
-                  className="w-6 h-6 accent-[#c3a11d]" 
+                  className="w-6 h-6 accent-[#c3a11d] flex-shrink-0" 
                 />
-                <span className="text-sm text-white font-medium">Saya Setuju & Patuh pada Aturan</span>
+                <span className="text-xs text-white font-medium leading-tight">
+                  Saya sudah membaca dan memahami informasi diatas
+                </span>
               </label>
 
               <div className="flex gap-3">
@@ -190,7 +206,7 @@ export default function Checkin() {
                 </button>
                 <button 
                   onClick={handleSubmit} disabled={!agree || loading}
-                  className="flex-[2] py-4 rounded-2xl font-bold text-white bg-gradient-to-r from-[#c3a11d] to-[#e2c14d] disabled:opacity-50"
+                  className="flex-[2] py-4 rounded-2xl font-bold text-white bg-gradient-to-r from-[#c3a11d] to-[#e2c14d] disabled:opacity-50 shadow-lg shadow-[#c3a11d]/20"
                 >
                   SUBMIT CHECK IN
                 </button>

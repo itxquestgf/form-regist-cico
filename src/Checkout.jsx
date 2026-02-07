@@ -45,7 +45,7 @@ export default function Checkout() {
     <div className="min-h-screen p-6 flex items-center justify-center relative">
       <AnimatedBackground />
 
-      {/* --- SPLASH SCREEN LOADING (THEME MATCHED) --- */}
+      {/* --- SPLASH SCREEN LOADING --- */}
       {loading && (
         <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#3f372f]/95 backdrop-blur-md animate-fade-in">
           <div className="relative">
@@ -94,21 +94,18 @@ export default function Checkout() {
               onChange={(e) => setBookingCode(e.target.value.toUpperCase())}
             />
 
-            <div className="mt-2 p-4 rounded-2xl bg-white/5 border border-white/10">
-              <p className="text-[12px] text-gray-400 leading-relaxed italic text-center">
-                "Dengan ini saya selaku PIC rombongan menyatakan bahwa seluruh rombongan telah menyelesaikan kunjungan dengan aman dan tidak membawa barang milik perusahaan tanpa izin."
-              </p>
-            </div>
-
-            <label className="flex gap-4 text-sm text-gray-300 items-start cursor-pointer group p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-[#c3a11d]/30 transition-all duration-300 mt-2">
+            {/* UPDATE: Kotak Pernyataan Baru (Gabung dengan Checkbox) */}
+            <label className="flex gap-4 text-sm text-gray-300 items-start cursor-pointer group p-5 rounded-2xl bg-[#c3a11d]/5 border border-[#c3a11d]/20 hover:border-[#c3a11d]/40 transition-all duration-300 mt-2">
               <input 
                 type="checkbox" 
                 required
                 checked={agree} 
                 onChange={() => setAgree(!agree)} 
-                className="mt-1 w-5 h-5 accent-[#c3a11d] flex-shrink-0" 
+                className="mt-1 w-6 h-6 accent-[#c3a11d] flex-shrink-0 cursor-pointer" 
               />
-              <span className="text-xs">Saya menyatakan data di atas benar dan rombongan telah keluar area.</span>
+              <span className="text-[11.5px] leading-relaxed text-gray-200 italic">
+                "Dengan ini saya selaku <span className="text-[#c3a11d] font-bold not-italic">PIC/Penanggung Jawab Rombongan</span> menyatakan bahwa seluruh rangkaian kunjungan ke area Chocolatos X-Quest (termasuk Merchandise Store dan Chocolatos Café) selesai dilaksanakan dengan aman dan tertib. Saya memastikan seluruh anggota rombongan meninggalkan area pabrik dalam kondisi sehat serta tidak membawa barang atau aset milik perusahaan tanpa izin."
+              </span>
             </label>
 
             <button
